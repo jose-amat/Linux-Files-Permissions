@@ -17,7 +17,12 @@ Linux Files Permissions Guide
     - [1.1.2. Permissões](#112-permissões)
 - [2. Alterar permissões](#2-alterar-permissões)
   - [2.1. Comando chmod](#21-comando-chmod)
-    - [2.1.1. Modo octal](#211-modo-octal)
+    - [2.1.1. Modo textual](#211-modo-textual)
+      - [2.1.1.1. Sintaxe:](#2111-sintaxe)
+      - [2.1.1.2. Exemplo:](#2112-exemplo)
+    - [2.1.2. Modo octal](#212-modo-octal)
+      - [2.1.2.1. Sintaxe:](#2121-sintaxe)
+      - [2.1.2.2. Exemplo:](#2122-exemplo)
 - [3. Alterar proprietário](#3-alterar-proprietário)
   - [3.1. Comando chown (change owner)](#31-comando-chown-change-owner)
     - [3.1.1. Sintaxe](#311-sintaxe)
@@ -76,9 +81,39 @@ drwxr-xr-x  2 joamat joamat 4096 Sep 28 18:35  Vídeos
 ## 2.1. Comando chmod
 Altera as permissões de acesso a arquivos e diretórios
 
-### 2.1.1. Modo octal
+### 2.1.1. Modo textual
 
-Sintaxe:
+#### 2.1.1.1. Sintaxe:
+
+```bash
+$ chmod u=[perm_text],g=[perm_text],o=[perm_text]  [arquivo ou diretório]
+```
+
+
+#### 2.1.1.2. Exemplo:
+
+Dar permissões `rwxr-xr-x` para o arquivo **test.txt**:
+
+| Permissão | Separação | Permissão textual |
+| :- | :-: | :-: |
+| rwxr-xr-x | (rwx)(r-x)(r-x) | `u=rwx,g=rx,o=rx` |
+
+```bash
+$ ls -l test.txt
+-rw-rw-r-- 1 joamat joamat 0 Oct  8 13:27 test.txt
+
+$ chmod u=rwx,g=rx,o=rx test.txt
+$ ls -l test.txt
+-rwxr-xr-x 1 joamat joamat 0 Oct  8 13:27 test.txt
+```
+
+`Nota: Você pode usar + ou - para adicionar ou extrair alguma permissão, respectivamente.`
+
+
+
+### 2.1.2. Modo octal
+
+#### 2.1.2.1. Sintaxe:
 
 ```bash
 $ chmod [permissões] [arquivo ou diretório]
@@ -91,7 +126,7 @@ $ chmod [permissões] [arquivo ou diretório]
 | --- | 000 | `0` | no permission |
 
 
-Exemplo:
+#### 2.1.2.2. Exemplo:
 
 Dar permissões `rwxr-xr-x` para o arquivo **test.txt**:
 
