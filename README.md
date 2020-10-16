@@ -7,7 +7,7 @@ Linux Files Permissions Guide
   <br>
 </h1>
 
-<h4 align="center">By Jose Amat - jose.alc.luis@gmail.com</h4>
+<h4 align="center">By Jose Amat - jose.amat@sas.com</h4>
 
 <h2>Summary</h2>
 
@@ -31,6 +31,13 @@ Linux Files Permissions Guide
   - [4.1. Comando chgrp (change group)](#41-comando-chgrp-change-group)
     - [4.1.1. Sintaxe](#411-sintaxe)
     - [4.1.2. Exemplo](#412-exemplo)
+- [5. Criar um usuário](#5-criar-um-usuário)
+- [6. Atribuir senha](#6-atribuir-senha)
+- [7. Adicionar um usuário a um grupo](#7-adicionar-um-usuário-a-um-grupo)
+  - [7.1. Grupo primário](#71-grupo-primário)
+  - [7.2. Grupo secundário](#72-grupo-secundário)
+- [8. Usuário sudoer](#8-usuário-sudoer)
+- [9. Remover um usuário de um grupo](#9-remover-um-usuário-de-um-grupo)
 
 # 1. Estrutura de arquivos
 ```bash
@@ -197,3 +204,65 @@ $ ls -l test.txt
 -rw-rw-r-- 1 root root 6 Oct  8 11:39 test.txt
 ```
 
+# 5. Criar um usuário
+```bash
+$ sudo adduser [usuário]
+```
+`Nota: Os comando adduser e addgroup são apenas scripts característicos de distros Debian.`
+
+
+# 6. Atribuir senha
+```bash
+$ sudo passwd [usuário]
+```
+
+# 7. Adicionar um usuário a um grupo
+
+Quando você cria um usuário você acaba também criando um grupo para este usuário, este grupo é o `grupo primário`. O `grupo secundário` do usuário é todo aquele grupo no qual ele também é adicionado. Mas você pode fazer com que o usuario mude de grupo primário.
+
+## 7.1. Grupo primário
+Vamos trocar o grupo primário de um usuário (que tem o mesmo nome) para outro grupo:
+
+```bash
+$ usermod -g [novo-grupo-primário] [usuário]
+```
+
+| Flag | Description |
+| - | - |
+| g | grupo primário |
+
+## 7.2. Grupo secundário
+```bash
+$ usermod -aG [grupo-1],[grupo-2],...,[grupo-n] [usuário]
+```
+| Flag | Description |
+| - | - |
+| a | Mantem o usuario nos seus antigos grupos seuncários |
+| G | Indica que será adicionado a outros grupos secundários |
+
+
+# 8. Usuário sudoer
+
+Vá até o seguinte caminho
+```bash
+$ vi /etc/sudoers
+```
+
+e digite:
+> `# Allow members of group sudo to execute any command`
+> 
+> [usuário]   ALL=NOPASSWD:   ALL
+
+# 9. Remover um usuário de um grupo
+
+```bash
+$ gpasswd -d [usuário] [grupo]
+```
+
+| Flag | Description |
+| - | - |
+| d | delete usuario do grupo |
+
+`Nota1: Se for usar o comando` **`deluser`** `tome o cuidado de colocar o nome do usuario e o nome do grupo, caso contrário você pode apagar o grupo.`
+
+`Nota2: O comando gpasswd é mais seguro de usar que o` **`deluser`**
